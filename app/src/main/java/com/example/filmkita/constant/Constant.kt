@@ -14,5 +14,6 @@ class Constant {
         const val EXTRA_RELEASE_DATE: String = "EXTRA_RELEASE_DATE"
         const val EXTRA_VOTE_AVG: String = "EXTRA_VOTE_AVG"
         const val EXTRA_VOTE_COUNT: String = "EXTRA_VOTE_COUNT"
+        const val EXTRA_RANK= "EXTRA_RANK"
     }
 }

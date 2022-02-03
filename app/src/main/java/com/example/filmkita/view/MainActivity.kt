@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmkita.viewmodel.CoinViewModel
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.airbnb.lottie.LottieAnimationView
 import com.example.filmkita.DialogModal
 import com.example.filmkita.R
 import com.example.filmkita.constant.Constant
@@ -28,15 +30,18 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var rvFilms: RecyclerView
     private lateinit var adapter: ListFilmAdapter
+    private lateinit var animationView: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         rvFilms = findViewById(R.id.rv_film)
+        animationView = findViewById(R.id.animationView)
 
         setupViewModel()
         showRecyclerList()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -70,11 +75,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         coinViewModel.coins.observe(this, renderCoins)
+        coinViewModel.isViewLoading.observe(this, isViewLoadingObserver)
+
     }
 
     private val renderCoins = Observer<List<Coin>> {
-        Log.v(TAG, "Data updated $it")
         adapter.update(it)
+    }
+
+    private val isViewLoadingObserver = Observer<Boolean> {
+
+        if(it) {
+            animationView.playAnimation()
+            animationView.visibility = View.VISIBLE
+        } else {
+            animationView.pauseAnimation()
+            animationView.visibility = View.GONE
+        }
     }
 
     override fun onResume() {

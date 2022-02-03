@@ -2,16 +2,23 @@ package com.example.filmkita.view
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.filmkita.R
@@ -19,34 +26,37 @@ import com.example.filmkita.constant.Constant
 import com.example.filmkita.di.Injection
 import com.example.filmkita.model.Coin
 import com.example.filmkita.model.CoinDetail
+import com.example.filmkita.model.Market
+import com.example.filmkita.model.MarketChart
 import com.example.filmkita.view.adapter.ListFilmDetailAdapter
 import com.example.filmkita.viewmodel.CoinViewModel
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var pieChart: PieChart
-
+    private lateinit var lineChart: LineChart
     private lateinit var rvFilms: RecyclerView
-
-    private var listCoin: ArrayList<Coin> = arrayListOf()
-
-    private val coinViewModel by viewModels<CoinViewModel> {
-        Injection.provideDetailViewModelFactory()
-    }
-
     private var tvTitle:TextView? = null
     private var tvDetail:TextView? = null
     private var tvLang:TextView? = null
     private var tvPopularity:TextView? = null
     private var tvReleaseDate:TextView? = null
+    private val chartData = ArrayList<Entry>()
 
+    private var listCoin: ArrayList<Coin> = arrayListOf()
+    private val coinViewModel by viewModels<CoinViewModel> {
+        Injection.provideCombineViewModelFacotry()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -55,27 +65,15 @@ class DetailActivity : AppCompatActivity() {
         tvLang = findViewById(R.id.tv_lang)
         tvPopularity = findViewById(R.id.tv_popularity)
         tvReleaseDate = findViewById(R.id.tv_release_date)
-        var newDrawable = R.drawable.ic_back
+        lineChart = findViewById(R.id.lineChart)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
-        rvFilms = findViewById(R.id.rv_film_vertical)
-
-//        listCoin.addAll(FilmData.listData)
-
-        showRecyclerList()
+//        rvFilms = findViewById(R.id.rv_film_vertical)
+        renderBackground()
         setupViewModel()
 
-//        pieChart = findViewById(R.id.pieChart)
-
-
-//        intent.getStringExtra(Constant.EXTRA_BG)?.let { renderBackground(it) }
-//
-//        intent.getStringExtra(Constant.EXTRA_VOTE_AVG)?.let {
-//            setDataToPieChart(it)
-//        }
-
-
+        showRecyclerList()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -92,86 +90,105 @@ class DetailActivity : AppCompatActivity() {
         val imgFg:ImageView = findViewById(R.id.img_foreground)
         Glide.with(this)
             .load(img)
+            .apply(RequestOptions().override(150, 150))
             .into(imgFg)
     }
 
-    private fun renderBackground (img:String) {
+    private fun renderBackground () {
         val imgBg:ImageView = findViewById(R.id.img_background)
         Glide.with(this)
-            .load(img)
-            .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
+            .load(R.drawable.blockchain)
+            .apply(RequestOptions.bitmapTransform(BlurTransformation(20, 3)))
             .into(imgBg)
     }
 
-    private fun setDataToPieChart(dt:String) {
-      val tf = Typeface.createFromAsset(this.assets, "poppins_regular.ttf")
-        var dtAvg = dt.toFloat()
-        pieChart.setUsePercentValues(true)
-        var maxAvg = 10
-        val dataEntries = ArrayList<PieEntry>()
-        dataEntries.add(PieEntry(dtAvg, ))
-        dataEntries.add(PieEntry(maxAvg % dtAvg ))
-
-        val colors: ArrayList<Int> = ArrayList()
-        colors.add(Color.parseColor("#3E8E7E"))
-        colors.add(Color.parseColor("#F05454"))
-
-        val dataSet = PieDataSet(dataEntries, "")
-        val data = PieData(dataSet)
-
-        // In Percentage
-        data.setValueFormatter(PercentFormatter())
-        data.setValueTypeface(tf)
-        data.setValueTextColor(R.color.black)
-        dataSet.sliceSpace = 3f
-        dataSet.colors = colors
-        pieChart.data = data
-        data.setValueTextSize(15f)
-        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
-        pieChart.animateY(1400, Easing.EaseInOutQuad)
-
-        //create hole in center
-        pieChart.holeRadius = 58f
-        pieChart.transparentCircleRadius = 61f
-        pieChart.isDrawHoleEnabled = true
-        pieChart.setHoleColor(Color.WHITE)
-
-
-        //add text in center
-        pieChart.setDrawCenterText(true);
-        pieChart.centerText = "VOTE AVERAGE"
-        pieChart.setCenterTextTypeface(tf)
-        pieChart.legend.isEnabled = false
-        pieChart.description.isEnabled = false
-
-
-        pieChart.invalidate()
-
-    }
-
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun setupViewModel() {
         coinViewModel.coinDetail.observe(this, renderDetailCoin)
+        coinViewModel.market.observe(this, renderMarket)
+        coinViewModel.marketChart.observe(this, renderMarketChart)
+        coinViewModel.isViewLoading.observe(this, isViewLoadingObserver)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private val renderDetailCoin = Observer<CoinDetail> {
-        Log.v("CONSOLE RENDER DETAIL", "$it")
         it?.let {
             tvTitle?.text = it.name
-            tvDetail?.text = it.description.toString()
+            tvDetail?.text = Html.fromHtml(it.description.en, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            tvDetail?.movementMethod = LinkMovementMethod.getInstance()
+            var rank = intent.getStringExtra(Constant.EXTRA_RANK)
+            tvLang?.text = "#$rank"
+            tvPopularity?.text = intent.getStringExtra(Constant.EXTRA_ORIGINAL_LANG)
+            tvReleaseDate?.text = intent.getStringExtra(Constant.EXTRA_POPULARITY)
             renderForeGround(it.image.large)
         }
+    }
+
+    private val renderMarketChart = Observer<List<MarketChart>> {
+        it?.let {
+            it.forEachIndexed { index, marketChart ->
+                chartData.add(Entry(index.toFloat(), marketChart.price.toFloat()))
+            }
+            renderLineChart()
+        }
+    }
+
+    private val renderMarket = Observer<Market> {
+        it?.let {
+
+        }
+    }
+
+    private val isViewLoadingObserver = Observer<Boolean> {
     }
 
     override fun onResume() {
         super.onResume()
         val id = intent.getStringExtra(Constant.EXTRA_ID)
-        id?.let { coinViewModel.loadCoinDetail(it) }
+        id?.let {
+            coinViewModel.loadCoinDetail(it)
+            coinViewModel.loadMarket(it)
+        }
     }
 
     private fun showRecyclerList() {
-        rvFilms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val listCoinAdapter = ListFilmDetailAdapter(listCoin)
-        rvFilms.adapter = listCoinAdapter
+//        rvFilms.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+//        val listCoinAdapter = ListFilmDetailAdapter(listCoin)
+//        rvFilms.adapter = listCoinAdapter
+    }
+
+    private fun renderLineChart () {
+        if (chartData.size > 0) {
+            lineChart.visibility = View.VISIBLE
+            val marketChartData = LineDataSet(chartData, "Price")
+            marketChartData.mode = LineDataSet.Mode.CUBIC_BEZIER
+            marketChartData.color = Color.GREEN
+            marketChartData.lineWidth = 1.5F
+            marketChartData.setCircleColor(Color.GREEN)
+            marketChartData.setDrawValues(false)
+
+            val legend = lineChart.legend
+            legend.isEnabled = true
+            legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            legend.orientation = Legend.LegendOrientation.HORIZONTAL
+            legend.setDrawInside(false)
+
+            lineChart.xAxis.setDrawGridLines(false)
+            lineChart.xAxis.setDrawGridLinesBehindData(false)
+            lineChart.axisLeft.setDrawGridLines(false)
+            lineChart.axisLeft.isEnabled = false
+            lineChart.y
+
+            lineChart.description.isEnabled = false
+            lineChart.xAxis.isEnabled = false
+            lineChart.data = LineData(marketChartData)
+            lineChart.animateXY(100, 500)
+            lineChart.setVisibleXRangeMaximum(40F)
+            lineChart.moveViewToX(90F)
+        } else {
+            lineChart.visibility = View.GONE
+        }
     }
 
     override fun onDestroy() {

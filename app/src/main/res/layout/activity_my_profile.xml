@@ -1,9 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MyProfile">
+    tools:context=".view.MyProfile"
+    android:orientation="vertical"
+    >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/topView"
+            android:layout_width="match_parent"
+            android:background="@color/red_fuchisia"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:id="@+id/icon_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back_white"
+                android:layout_margin="15dp"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:background="@drawable/rounded_bottom"
+                android:layout_height="30dp"
+                />
+            <ImageView
+                android:id="@+id/img_my_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@tools:sample/avatars"
+                android:layout_gravity="center"
+                android:foregroundGravity="bottom"
+                />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TextContent.Title"
+                android:textColor="@color/colorSubtitle"
+                android:textSize="24sp"
+                android:layout_marginTop="0dp"
+                android:text="Riswan Ardiansah"
+                android:layout_gravity="center"
+                android:layout_marginBottom="0dp"
+                />
+            <TextView
+                style="@style/TextContent"
+                android:textColor="@color/colorSubtitle"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="14sp"
+                android:text="riswanardiansah@gmail.com"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                style="@style/TextContent.Subtitle"
+                android:layout_marginVertical="16dp"
+                android:lineSpacingMultiplier="1"
+                android:text="@string/about_me"
+                android:fontFamily="@font/poppins_bold"
+                android:linksClickable="true"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_detail"
+                style="@style/TextContent.Subtitle"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:lineSpacingMultiplier="1"
+                android:text="@string/description_about_me"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                style="@style/TextContent.Subtitle"
+                android:layout_marginVertical="16dp"
+                android:lineSpacingMultiplier="1"
+                android:text="@string/about_project"
+                android:fontFamily="@font/poppins_bold"
+                android:linksClickable="true"
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/TextContent.Subtitle"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"
+                android:lineSpacingMultiplier="1"
+                android:text="@string/made"
+                />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TableRow>
+                    <TextView
+                        style="@style/TextContent.Subtitle"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingMultiplier="1"
+                        android:text="@string/repository"/>
+                    <TextView
+                        style="@style/TextContent.Subtitle"
+                        android:textSize="14sp"
+                        android:lineHeight="1dp"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingMultiplier="1"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/link_repo"/>
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        style="@style/TextContent.Subtitle"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingMultiplier="1"
+                        android:text="@string/api"/>
+                    <TextView
+                        style="@style/TextContent.Subtitle"
+                        android:textSize="14sp"
+                        android:lineHeight="1dp"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingMultiplier="1"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/link_api"/>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

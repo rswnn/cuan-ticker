@@ -1,7 +1,7 @@
 package com.example.filmkita.data
 
 import com.example.filmkita.model.Coin
-import com.example.filmkita.model.CoinDataSource
+import com.example.filmkita.model.datasource.CoinDataSource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

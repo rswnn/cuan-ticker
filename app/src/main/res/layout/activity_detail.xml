@@ -27,15 +27,15 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:src="@drawable/blockchain" />
                 <ImageView
                     android:id="@+id/img_foreground"
                     android:layout_width="150dp"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/ic_launcher_round" />
+                    />
             </FrameLayout>
             <FrameLayout
                 android:layout_width="match_parent"
@@ -49,7 +49,6 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/colorSubtitle"
-                    android:text="@string/dummy_value"
                     android:textSize="32sp" />
             </FrameLayout>
 
@@ -59,6 +58,7 @@
                 android:background="@drawable/shadow"
                 android:layout_margin="3dp"
                 android:padding="15dp"
+                android:stretchColumns="*"
                 >
                 <TableRow
                     android:layout_width="match_parent"
@@ -70,9 +70,10 @@
                         android:textSize="16sp"
                         android:fontFamily="@font/poppins_bold"
                         android:textAlignment="center"
-                        android:text="@string/language"
+                        android:text="@string/rank"
                         android:layout_marginBottom="14sp"
                         android:textColor="@color/colorSubtitle"
+                        android:layout_weight="1"
                         />
                     <TextView
                         android:layout_width="match_parent"
@@ -80,7 +81,7 @@
                         android:textSize="16sp"
                         android:fontFamily="@font/poppins_bold"
                         android:textAlignment="center"
-                        android:text="@string/popularity"
+                        android:text="@string/total_supply"
                         android:textColor="@color/colorSubtitle"
                         />
                     <TextView
@@ -90,7 +91,7 @@
                         android:textSize="16sp"
                         android:fontFamily="@font/poppins_bold"
                         android:textAlignment="center"
-                        android:text="@string/release_date" />
+                        android:text="@string/max_supply" />
                 </TableRow>
                 <TableRow
                     android:layout_width="match_parent"
@@ -101,31 +102,27 @@
                         android:layout_width="wrap_content"
                         style="@style/TextSpec.Value"
                         android:textAlignment="center"
-                        android:text="@string/battery" />
+                        android:text="@string/zero" />
                     />
                     <TextView
                         android:id="@+id/tv_popularity"
                         android:layout_width="wrap_content"
                         style="@style/TextSpec.Value"
                         android:textAlignment="center"
-                        android:text="@string/battery" />
+                        android:text="@string/zero" />
                     <TextView
                         android:id="@+id/tv_release_date"
                         android:layout_width="wrap_content"
                         style="@style/TextSpec.Value"
                         android:textAlignment="center"
-                        android:text="@string/battery" />
+                        android:text="@string/zero" />
                 </TableRow>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp">
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/pieChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
-                </LinearLayout>
             </TableLayout>
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineChart"
+                android:minHeight="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,8 +135,9 @@
                     style="@style/TextContent.Subtitle"
                     android:layout_marginVertical="16dp"
                     android:lineSpacingMultiplier="1"
-                    android:text="@string/sinopsis"
+                    android:text="@string/description"
                     android:fontFamily="@font/poppins_bold"
+                    android:linksClickable="true"
                     android:textSize="16sp" />
 
                 <TextView
@@ -148,27 +146,27 @@
                     android:textSize="14sp"
                     android:layout_marginBottom="16dp"
                     android:lineSpacingMultiplier="1"
-                    android:text="@string/content_text"
+                    android:linksClickable="true"
+                    android:autoLink="web"
                     />
             </LinearLayout>
-                <TextView
-                    style="@style/TextContent.Subtitle"
-                    android:layout_marginVertical="16dp"
-                    android:lineSpacingMultiplier="1"
-                    android:text="@string/more_film"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textSize="16sp" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_film_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:listitem="@layout/item_card_vertical"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        />
+<!--                <TextView-->
+<!--                    style="@style/TextContent.Subtitle"-->
+<!--                    android:layout_marginVertical="16dp"-->
+<!--                    android:lineSpacingMultiplier="1"-->
+<!--                    android:text="@string/more_film"-->
+<!--                    android:fontFamily="@font/poppins_bold"-->
+<!--                    android:textSize="16sp" />-->
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/rv_film_vertical"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        tools:listitem="@layout/item_card_vertical"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                        />-->
 
         </LinearLayout>
     </ScrollView>
-
 
 </LinearLayout>

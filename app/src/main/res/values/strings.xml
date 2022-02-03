@@ -29,11 +29,25 @@
     <string name="sinopsis">Sinopsis</string>
     <string name="lorem">lorem ipsum blagador</string>
     <string name="language">Language</string>
+    <string name="price">Current Price</string>
     <string name="popularity">Popularity</string>
     <string name="release_date">Release Date</string>
     <string name="vote_avg">Vote Avg</string>
     <string name="vote_count">Vote Count</string>
     <string name="more_film">More Film</string>
-<!-- TODO: Remove or change this placeholder text -->
+    <string name="description">Description</string>
+    <string name="total_supply">Circulate Supply</string>
+    <string name="max_supply">Max Supply</string>
+    <string name="zero">0.0</string>
+    <string name="rank">Market Rank</string>
+    <string name="about_me">About Me</string>
+    <string name="about_project">About Project</string>
+    <string name="description_about_me">Experienced Front End Developer and Mobile Developer. Skilled in Kotlin. Strong engineering professional with a Bachelor’s Degree focused in Computer Science from Universitas Pamulang.</string>
+    <string name="made">The app is made for submission simple app project</string>
+    <string name="repository">Repository</string>
+    <string name="api">Api</string>
+    <string name="link_repo">\n<a href="https://learntodroid.com">Github</a></string>
+    <string name="link_api">\n<a href="https://www.coingecko.com/api/documentations/v3">CoinGecko</a></string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

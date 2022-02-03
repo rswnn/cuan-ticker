@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@color/white_glow"
+        android:background="@color/white"
         android:orientation="horizontal"
         >
 
@@ -33,7 +33,7 @@
             android:stretchColumns="0,1"
             android:layout_marginTop="10dp"
             >
-            <TableRow android:layout_width="match_parent">
+            <TableRow android:layout_width="match_parent" android:layout_gravity="center" android:gravity="center">
                 <TextView
                     android:id="@+id/tv_item_name"
                     android:layout_width="wrap_content"

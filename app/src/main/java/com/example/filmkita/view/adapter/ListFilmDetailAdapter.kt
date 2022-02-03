@@ -35,7 +35,7 @@ class ListFilmDetailAdapter(private val listCoin: ArrayList<Coin>): RecyclerView
             .load( listCoin[position].image)
             .apply(RequestOptions().override(350, 550))
             .into(holder.imgPhoto)
-        holder.tvName.text = listCoin[position].current_price.toString()
+        holder.tvName.text = listCoin[position].current_price.toBigDecimal().toString()
         holder.tvDetail.text = listCoin[position].market_cap_change_percentage_24h.toString()
         holder.itemView.setOnClickListener {
             val ctx = holder.itemView.context

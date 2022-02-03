@@ -50,28 +50,25 @@ class ListFilmAdapter(private var listCoin: List<Coin>): RecyclerView.Adapter<Li
             .load( listCoin[position].image)
             .apply(RequestOptions().override(150, 150))
             .into(holder.imgPhoto)
-        var currentPrice =  listCoin[position].current_price
+        var currentPrice =  listCoin[position].current_price.toBigDecimal().toString()
         var percent = round(listCoin[position].market_cap_change_percentage_24h)
         var percetage = percent.toInt()
         holder.tvName.text = listCoin[position].symbol.uppercase()
         holder.tvDetail.text ="$$currentPrice"
-        if(percetage < 0) {
-            println("Hello")
-            holder.tvPercentage.setTextColor(Color.parseColor("#B8405E"))
-        } else if (percetage > 0) {
+        if(percetage > 0) {
             holder.tvPercentage.setTextColor(Color.parseColor( "#2EB086"))
+
+        } else if (percetage < 0) {
+            holder.tvPercentage.setTextColor(Color.parseColor("#B8405E"))
         }
         holder.tvPercentage.text = "%$percent"
         holder.itemView.setOnClickListener {
             val ctx = holder.itemView.context
             val moveIntent = Intent(holder.itemView.context, DetailActivity::class.java)
             moveIntent.putExtra(Constant.EXTRA_ID, listCoin[position].id)
-//            moveIntent.putExtra(Constant.EXTRA_DETAIL, listCoin[position].overview)
-//            moveIntent.putExtra(Constant.EXTRA_ORIGINAL_LANG, listCoin[position].original_language)
-//            moveIntent.putExtra(Constant.EXTRA_POPULARITY, listCoin[position].popularity.toString())
-//            moveIntent.putExtra(Constant.EXTRA_RELEASE_DATE, listCoin[position].release_date)
-//            moveIntent.putExtra(Constant.EXTRA_VOTE_AVG, listCoin[position].vote_average.toString())
-//            moveIntent.putExtra(Constant.EXTRA_VOTE_COUNT, listCoin[position].vote_count.toString())
+            moveIntent.putExtra(Constant.EXTRA_RANK, listCoin[position].market_cap_rank.toString())
+            moveIntent.putExtra(Constant.EXTRA_ORIGINAL_LANG, listCoin[position].circulating_supply.toLong().toString())
+            moveIntent.putExtra(Constant.EXTRA_POPULARITY, listCoin[position].max_supply.toLong().toString())
             ctx.startActivity(moveIntent)
         }
 

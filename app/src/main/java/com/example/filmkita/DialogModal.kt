@@ -54,8 +54,6 @@ class DialogModal : DialogFragment() {
 
     private fun renderImg(img:String?, viewFragment: View) {
         val imgBg = viewFragment.findViewById<ImageView>(R.id.img_password)
-        println(imgBg)
-        println(viewFragment)
         Glide.with(viewFragment.context)
             .load(img)
             .into(imgBg)

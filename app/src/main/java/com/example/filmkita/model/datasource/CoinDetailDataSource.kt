@@ -1,8 +1,7 @@
-package com.example.filmkita.model
+package com.example.filmkita.model.datasource
 
-import com.example.filmkita.data.OperationCallback
 import com.example.filmkita.data.OperationCallbackDetail
-import com.example.filmkita.utils.WrappedResponseDetail
+import com.example.filmkita.model.CoinDetail
 
 interface CoinDetailDataSource {
 

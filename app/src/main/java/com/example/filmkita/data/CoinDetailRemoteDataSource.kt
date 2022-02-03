@@ -1,33 +1,28 @@
 package com.example.filmkita.data
 
 import com.example.filmkita.model.CoinDetail
-import com.example.filmkita.model.CoinDetailDataSource
-import com.example.filmkita.utils.WrappedResponseDetail
+import com.example.filmkita.model.datasource.CoinDetailDataSource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class CoinDetailRemoteDataSource(apiClient:ApiClient): CoinDetailDataSource {
-    private var call: Call<WrappedResponseDetail<CoinDetail>>? = null
+    private var call: Call<CoinDetail>? = null
     private var service = apiClient.build()
     override fun getCoinDetail(callback: OperationCallbackDetail<CoinDetail>, id: String) {
         call = service?.getCoinDetail(id)
-        call?.enqueue(object : Callback<WrappedResponseDetail<CoinDetail>> {
-            override fun onResponse(
-                call: Call<WrappedResponseDetail<CoinDetail>>,
-                response: Response<WrappedResponseDetail<CoinDetail>>
-            ) {
+        call?.enqueue(object : Callback<CoinDetail> {
+            override fun onResponse(call: Call<CoinDetail>, response: Response<CoinDetail>) {
                 response.body()?.let {
                     if (response.isSuccessful) {
-                        callback.onSuccess(it?.data)
+                        callback.onSuccess(it)
                     } else {
-                        println("Kena 2")
                         callback.onError(it.toString())
                     }
                 }
             }
 
-            override fun onFailure(call: Call<WrappedResponseDetail<CoinDetail>>, t: Throwable) {
+            override fun onFailure(call: Call<CoinDetail>, t: Throwable) {
                 callback.onError(t.toString())
             }
 
